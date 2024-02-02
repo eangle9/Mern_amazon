@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getError } from "../../utils";
 
 const initialState = {
   loading: false,
@@ -10,11 +11,9 @@ const initialState = {
 const fetchProducts = createAsyncThunk("fetch/products", async () => {
   try {
     const { data } = await axios.get("/api/products");
-    console.log("data:", data);
     return data;
   } catch (error) {
-    console.log("error:", error);
-    throw new Error(error.message);
+    throw new Error(getError(error));
   }
 });
 
@@ -40,4 +39,4 @@ const productsSlice = createSlice({
 });
 
 export default productsSlice.reducer;
-export {fetchProducts};
+export { fetchProducts };

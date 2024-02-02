@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getError } from "../../utils";
 
 const initialState = {
   loading: false,
@@ -12,8 +13,7 @@ const fetchProduct = createAsyncThunk("fetch/product", async (slug) => {
     const { data } = await axios.get(`/api/products/slug/${slug}`);
     return data;
   } catch (error) {
-    console.log("error:", error);
-    throw new Error(error.response.data.message);
+    throw new Error(getError(error));
   }
 });
 

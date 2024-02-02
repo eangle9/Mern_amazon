@@ -6,6 +6,8 @@ import { fetchProducts } from "../../features/products/ProductsSlice";
 import { Col, Row } from "react-bootstrap";
 import Product from "../../Product";
 import { Helmet } from "react-helmet-async";
+import Loading from "../../Loading";
+import ErrorMessage from "../../ErrorMessage";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -22,9 +24,9 @@ const HomeScreen = () => {
       </Helmet>
       <div className="products">
         {loading ? (
-          <div>loading...</div>
+          <Loading />
         ) : error ? (
-          <div>{error}</div>
+          <ErrorMessage variant='danger'>{error}</ErrorMessage>
         ) : (
           <Row>
             {products.map((product) => (
