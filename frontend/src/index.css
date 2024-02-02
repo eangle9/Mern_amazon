@@ -9,6 +9,10 @@ body {
 .site_container{
   min-height: 100vh;
 }
+.btn-primary{
+  background-color: #f0c040;
+  color: #000000;
+}
 main{
   flex: 1;
 }
