@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/ProductsSlice";
 import { Col, Row } from "react-bootstrap";
 import Product from "../../Product";
+import { Helmet } from "react-helmet-async";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,9 @@ const HomeScreen = () => {
   return (
     <div>
       <h1>Featured Products</h1>
+      <Helmet>
+        <title>Amazon</title>
+      </Helmet>
       <div className="products">
         {loading ? (
           <div>loading...</div>
@@ -24,7 +28,7 @@ const HomeScreen = () => {
         ) : (
           <Row>
             {products.map((product) => (
-              <Col sm={6} md={4} lg={3}>
+              <Col key={product.slug} sm={6} md={4} lg={3}>
                 <Product product={product} />
               </Col>
             ))}
