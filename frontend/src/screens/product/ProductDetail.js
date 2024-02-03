@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../../features/products/ProductSlice";
 import { Badge, Button, Card, Col, ListGroup, Row } from "react-bootstrap";
@@ -9,6 +9,7 @@ import Loading from "../../Loading";
 import ErrorMessage from "../../ErrorMessage";
 import { addToCart } from "../../features/cart/AddToCartSlice";
 import axios from "axios";
+// import axios from "axios";
 
 const ProductDetail = () => {
   const params = useParams();
@@ -16,19 +17,22 @@ const ProductDetail = () => {
   const { loading, product, error } = useSelector((state) => state.product);
   const { cartItems } = useSelector((state) => state.cart.addCart);
   const { slug } = params;
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchProduct(slug));
   }, [slug]);
 
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
     const existItem = cartItems.find((item) => item._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    if (product.countInStock < quantity) {
+    const { data } = await axios.get(`/api/product/${product._id}`);
+    if (data.countInStock < quantity) {
       window.alert("Sorry. Product out of Stock");
       return;
     }
-    dispatch(addToCart({ ...product, quantity: quantity }));
+    dispatch(addToCart({ ...product, quantity }));
+    navigate("/cart");
   };
   return (
     <div>

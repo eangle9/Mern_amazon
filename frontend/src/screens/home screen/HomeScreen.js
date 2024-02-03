@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./HomeScreen.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/ProductsSlice";
 import { Col, Row } from "react-bootstrap";
