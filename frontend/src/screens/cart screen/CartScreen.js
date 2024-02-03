@@ -9,6 +9,7 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ErrorMessage from "../../ErrorMessage";
 import axios from "axios";
 import { addToCart, deleteCart } from "../../features/cart/AddToCartSlice";
+import { Helmet } from "react-helmet-async";
 
 const CartScreen = () => {
   const { cartItems } = useSelector((state) => state.cart.addCart);
@@ -28,17 +29,20 @@ const CartScreen = () => {
   };
   return (
     <div>
+      <Helmet>
+        <title>Shopping Cart</title>
+      </Helmet>
       <h1>Shopping Cart</h1>
       <Row>
         <Col md={8}>
-          {cartItems.length === 0 ? (
-            <ErrorMessage>
-              Cart is empty. <Link to="/">Go Shopping</Link>
-            </ErrorMessage>
-          ) : (
-            cartItems.map((item) => (
-              <ListGroup key={item._id} className="mb-3">
-                <ListGroup.Item>
+          <ListGroup>
+            {cartItems.length === 0 ? (
+              <ErrorMessage>
+                Cart is empty. <Link to="/">Go Shopping</Link>
+              </ErrorMessage>
+            ) : (
+              cartItems.map((item) => (
+                <ListGroup.Item key={item._id}>
                   <Row className="align-items-center">
                     <Col md={4} xs={12}>
                       <img
@@ -78,9 +82,9 @@ const CartScreen = () => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-              </ListGroup>
-            ))
-          )}
+              ))
+            )}
+          </ListGroup>
         </Col>
         <Col md={4}>
           <Card>
