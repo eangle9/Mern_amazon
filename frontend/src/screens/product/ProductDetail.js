@@ -7,23 +7,35 @@ import Ratings from "../../Rating";
 import { Helmet } from "react-helmet-async";
 import Loading from "../../Loading";
 import ErrorMessage from "../../ErrorMessage";
+import { addToCart } from "../../features/cart/AddToCartSlice";
+import axios from "axios";
 
 const ProductDetail = () => {
   const params = useParams();
   const dispatch = useDispatch();
   const { loading, product, error } = useSelector((state) => state.product);
+  const { cartItems } = useSelector((state) => state.cart.addCart);
   const { slug } = params;
 
   useEffect(() => {
     dispatch(fetchProduct(slug));
   }, [slug]);
 
+  const addToCartHandler = () => {
+    const existItem = cartItems.find((item) => item._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    if (product.countInStock < quantity) {
+      window.alert("Sorry. Product out of Stock");
+      return;
+    }
+    dispatch(addToCart({ ...product, quantity: quantity }));
+  };
   return (
     <div>
       {loading ? (
         <Loading />
       ) : error ? (
-        <ErrorMessage variant='danger'>{error}</ErrorMessage>
+        <ErrorMessage variant="danger">{error}</ErrorMessage>
       ) : (
         <Row>
           <Col md={6}>
@@ -78,7 +90,9 @@ const ProductDetail = () => {
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <div className="d-grid">
-                        <Button variant="primary">Add to Cart</Button>
+                        <Button onClick={addToCartHandler} variant="primary">
+                          Add to Cart
+                        </Button>
                       </div>
                     </ListGroup.Item>
                   )}
