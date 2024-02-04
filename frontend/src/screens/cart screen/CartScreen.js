@@ -2,7 +2,7 @@ import React from "react";
 import "./CartScreen.css";
 import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RemoveCircleRoundedIcon from "@mui/icons-material/RemoveCircleRounded";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
@@ -14,6 +14,7 @@ import { Helmet } from "react-helmet-async";
 const CartScreen = () => {
   const { cartItems } = useSelector((state) => state.cart.addCart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleButton = async (item, quantity) => {
     const { data } = await axios.get(`/api/product/${item._id}`);
@@ -26,6 +27,10 @@ const CartScreen = () => {
 
   const handleDelete = (item) => {
     dispatch(deleteCart(item));
+  };
+
+  const handlecheckout = () => {
+    navigate("/signin?redirect=/shipping");
   };
   return (
     <div>
@@ -102,6 +107,7 @@ const CartScreen = () => {
                     type="button"
                     variant="primary"
                     disabled={cartItems.length === 0}
+                    onClick={handlecheckout}
                   >
                     Proceed to Checkout
                   </Button>
