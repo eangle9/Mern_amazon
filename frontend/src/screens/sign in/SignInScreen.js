@@ -1,14 +1,18 @@
 import React from "react";
-import './SignInScreen.css'
+import "./SignInScreen.css";
 import { Button, Container, Form } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const SignInScreen = () => {
   const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get('redirect');
-  const redirect = redirectInUrl? redirectInUrl : '/';
+  const redirectInUrl = new URLSearchParams(search).get("redirect");
+  const redirect = redirectInUrl ? redirectInUrl : "/";
   return (
     <Container className="form-container">
+      <Helmet>
+        <title>Sign In</title>
+      </Helmet>
       <h1 className="my-3">Sign In</h1>
       <Form>
         <Form.Group className="mb-3" controlId="email">
@@ -22,7 +26,10 @@ const SignInScreen = () => {
         <div className="mb-3">
           <Button type="submit">Sign In</Button>
         </div>
-        <div>New customer{' '}<Link to={`/signup?redirect=${redirect}`}>Create your account</Link></div>
+        <div>
+          New customer{" "}
+          <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
+        </div>
       </Form>
     </Container>
   );

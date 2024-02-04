@@ -17,7 +17,7 @@ const CartScreen = () => {
   const navigate = useNavigate();
 
   const handleButton = async (item, quantity) => {
-    const { data } = await axios.get(`/api/product/${item._id}`);
+    const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < item.quantity) {
       window.alert("sorry. Product out of stock");
       return;
